@@ -1,6 +1,7 @@
 import React from "react";
 import {useState} from "react";
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import { handleCreate, handleUpdate } from "./handlers/form";
 
 
 const Form = ({API_URL, fetchError, setFetchError}) =>{
@@ -42,40 +43,10 @@ const Form = ({API_URL, fetchError, setFetchError}) =>{
         /* Determine if it is a PUT or POST request */
         if(id!=="-1"){
             console.log(id);
-            fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    id: id,
-                    title: formData.title,
-                    body: formData.body,
-                    userId: formData.userId,
-                }),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-                })
-                .then((response) => response.json())
-                .then((json) => console.log(json));
+            handleUpdate({id, formData});
         }
         else{
-            fetch( API_URL , {
-                method: 'POST',
-                body: jsonObj,
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-                })
-                .then((response) =>{
-                    if(!response.ok){
-                        throw new Error("Error: Failed to create Post");
-                    }
-                    setFetchError(null);
-                    return response.json();
-                })
-                .then((json) => console.log(json)) //Response object contaning key value pair of the succesfull newly created post
-                .catch((error) => {
-                    setFetchError(error.message)
-                });
+            handleCreate({API_URL, jsonObj, setFetchError});
         }
         
     }

@@ -1,24 +1,12 @@
 import React from "react";
 import {useEffect} from "react";
+import { handleRead } from "./handlers/list";
 
 const List = ({API_URL, fetchError, setFetchError, post, setPost, Link}) =>{
 
     /* Method that will get all the posts & store it in the post array */
     useEffect(() =>{
-       fetch(API_URL)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error("Error: Failed the retrieve List Data")
-                }
-                setFetchError(null);
-                return response.json();
-            })
-            .then((jsonObj) => { 
-                setPost(jsonObj); // Place the obtained data in the post array
-            }) 
-            .catch((error) => {
-                setFetchError(error.message);
-            })
+        handleRead({API_URL, setPost, setFetchError});
     },[API_URL, setFetchError, setPost]);// Run when these values change
 
     const tableRow = (post) => {
