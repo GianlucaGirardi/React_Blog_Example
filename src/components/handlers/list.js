@@ -16,3 +16,10 @@ export const handleRead = ({API_URL, setPost, setFetchError}) =>{
                 setFetchError(error.message);
             })
 }
+
+    export const handleDelete = (id) => {
+        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+            method: 'DELETE',
+        });
+        
+    }

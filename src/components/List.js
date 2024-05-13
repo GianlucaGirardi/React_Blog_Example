@@ -1,6 +1,6 @@
 import React from "react";
 import {useEffect} from "react";
-import { handleRead } from "./handlers/list";
+import { handleRead, handleDelete } from "./handlers/list";
 
 const List = ({API_URL, fetchError, setFetchError, post, setPost, Link}) =>{
 
@@ -21,6 +21,7 @@ const List = ({API_URL, fetchError, setFetchError, post, setPost, Link}) =>{
                                 <td>{postObj.userId}</td>
                                 <td>{postObj.title}</td>
                                 <td><Link to={`/Form/${index}`}><button type="button">Update</button></Link></td>
+                                <td><button  type="button" onClick={() => handleDelete(postObj.id)}>Delete</button></td>
                             </tr>
                             )
                         })

@@ -14,14 +14,10 @@ const Form = ({API_URL, fetchError, setFetchError}) =>{
 
         const formData = new FormData(event.target); 
 
-        /* Clear form values to simulate page reaload */
-        event.target.title.value="";
-        event.target.userId.value="";
-        event.target.body.value="";
-
         /* Form Validation */
         setValidationError([]);
-        if(formData.get("title").length < 5 || formData.length > 100){
+
+        if(formData.get("title").length < 5 || formData.get("title").length > 100){
             const titleError = "Invalid: Title must be between 5 and 100 characters long";
             setValidationError([titleError]);
             return;
@@ -37,8 +33,14 @@ const Form = ({API_URL, fetchError, setFetchError}) =>{
             return;
         }
 
+
         /* Connect to api and send data to url & its endpoints */
         const jsonObj = JSON.stringify(formData);
+
+        /* Properly Clear form values to simulate page reload after all values have been captured*/
+        formData.set("title", ""); 
+        formData.set("userId", ""); 
+        formData.set("body", ""); 
 
         /* Determine if it is a PUT or POST request */
         if(id!=="-1"){
@@ -55,14 +57,14 @@ const Form = ({API_URL, fetchError, setFetchError}) =>{
         <div>        
             <form onSubmit={handleSubmit}>
                 <label htmlFor="title"> Title </label><br />
-                <input type="text" id="title" name="title" placeholder="Enter Title"/><br /><br />
+                <input type="text" id="title" data-testid='title' name="title" placeholder="Enter Title"/><br /><br />
 
                 <label htmlFor="userId"> User Id </label><br />
-                <input type="text" id="userId" name="userId" placeholder="Enter User ID"/><br /><br />
+                <input type="text" id="userId" data-testid='userId' name="userId" placeholder="Enter User ID"/><br /><br />
 
                 <label htmlFor="body"> Body </label><br />
-                <input type="textarea" id="body" name="body" placeholder="Enter Body" /><br />
-                <button type="submit"className="btn btn-secondary">Submit</button><br /><br />
+                <input type="textarea" id="body" data-testid='body' name="body" placeholder="Enter Body" /><br />
+                <button type="submit" data-testid='Submit' className="btn btn-secondary">Submit</button><br /><br />
 
                 {validationError && <p className="error">{validationError}</p>}
                 {fetchError && <p className="error">{fetchError}</p>}
